@@ -4,16 +4,12 @@ plugins {
 
 android {
     namespace 'com.example.thegarden'
-    compileSdk 34
-    viewBinding
-            {
-                enabled = true
-            }
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.thegarden"
-        minSdk 30
-        targetSdk 34
+        minSdk 22
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -27,8 +23,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildFeatures {
         viewBinding true
