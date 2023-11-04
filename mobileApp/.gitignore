@@ -1,10 +1,12 @@
-*.iml
 .gradle
 /local.properties
 /mobileApp/.idea/caches
 /mobileApp/.idea/libraries
 /mobileApp/.idea/modules.xml
 /mobileApp/.idea/workspace.xml
+/mobileApp/.idea/vcs.xml
+/mobileApp/.idea/gradle.xml
+/mobileApp/.idea/misc.xml
 /mobileApp/.idea/navEditor.xml
 /mobileApp/.idea/assetWizardSettings.xml
 .DS_Store
@@ -13,3 +15,37 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+.idea
+*.iws
+*.ipr
+*.iml
+
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
