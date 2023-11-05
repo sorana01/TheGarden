@@ -62,6 +62,45 @@ public class IdentifyPlantUtil {
         });
     }
 
+    public void identifyPlantFromBase64(String base64Image) {
+        List<String> images = Collections.singletonList(base64Image);
+
+        PlantRequest request = new PlantRequest(images, true);
+        Call<PlantResponse> call = plantIDApi.identifyPlant(request);
+
+        call.enqueue(new Callback<PlantResponse>() {
+            @Override
+            public void onResponse(Call<PlantResponse> call, Response<PlantResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    PlantResponse plantResponse = response.body();
+                    List<String> plantNames = plantResponse.getPlantNames();
+
+                    // Log the results
+                    for (String plantName : plantNames) {
+                        Log.d("PlantID", "Identified plant: " + plantName);
+                    }
+                } else {
+                    // Handle error
+                    Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show();
+                    try {
+                        Log.e("PlantID", "Error: " + response.errorBody().string());
+                    } catch (IOException e) {
+                        Log.e("PlantID", "Error reading errorBody", e);
+                    }
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<PlantResponse> call, Throwable t) {
+                // Handle the error
+                Toast.makeText(context, "API call failed", Toast.LENGTH_SHORT).show();
+                Log.e("PlantID", "API call failed", t);
+            }
+        });
+    }
+
+
     private static String convertImageToBase64(int resourceId) {
         // Load the image from drawable resource
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
@@ -74,6 +113,13 @@ public class IdentifyPlantUtil {
         byte[] byteArray = byteArrayOutputStream.toByteArray();
 
         // Convert byte array to Base64 string
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    public static String convertBitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }
