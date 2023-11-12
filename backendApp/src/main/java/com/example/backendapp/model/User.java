@@ -1,11 +1,8 @@
 package com.example.backendapp.model;
 
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import java.util.Set;
 
 @Data
 @Builder
@@ -20,11 +17,11 @@ public class User {
     private Long id;
 
     private String firstName;
-
     private String lastName;
-
     private String email;
-
     private String password;
 
+    // One user can have many plants
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Plant> plants;
 }
