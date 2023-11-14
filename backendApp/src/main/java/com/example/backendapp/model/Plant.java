@@ -15,6 +15,8 @@ public class Plant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String plantName; // Added field for plant name
+
     // Many plants can be associated with one user
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
