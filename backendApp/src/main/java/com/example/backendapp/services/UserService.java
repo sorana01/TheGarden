@@ -1,5 +1,6 @@
 package com.example.backendapp.services;
 
+import com.example.backendapp.exceptions.InvalidCredentialException;
 import com.example.backendapp.model.User;
 import com.example.backendapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,14 @@ public class UserService implements UserDetailsService{
     }
 
     public User signUpUser(User user) {
+
+        // Check if a user already exists with the given email
+        User existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser != null) {
+            throw new InvalidCredentialException("Email already in use");
+        }
+
+
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userRepository.save(user);
