@@ -86,15 +86,17 @@ public class JwtService {
         byte[] secretBytes = secret.getBytes(StandardCharsets.UTF_8);
         return new SecretKeySpec(secretBytes, SignatureAlgorithm.HS512.getJcaName());
     }
-    public String generateToken(User user) {
+    public String generateToken(
+            String email,
+            String lastName
+    ) {
         String jwtToken;
 
         jwtToken = Jwts.builder()
                 .setHeaderParam("alg", "HS512")
                 .setHeaderParam("typ", "JWT")
-                .setSubject(user.getEmail())
-                .claim("firstName", user.getFirstName())
-                .claim("lastName", user.getLastName())
+                .setSubject(email)
+                .claim("lastName", lastName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS512)
