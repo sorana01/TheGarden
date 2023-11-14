@@ -83,13 +83,10 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onActivityResult(ActivityResult result) {
                             if (result.getResultCode() == Activity.RESULT_OK) {
-                                // handle the captured image
                                 Bundle extras = result.getData().getExtras();
                                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                                 if (imageBitmap != null) {
-                                    // Convert the bitmap to Base64 and then call your API
                                     String base64Image = convertBitmapToBase64(imageBitmap);
-                                    // Use base64Image for your API call...
                                     identifyPlant.identifyPlantFromBase64(base64Image);
                                 }
                             }
