@@ -34,6 +34,11 @@
 
         <activity android:name=".authentication.LoginActivity">
         </activity>
+        <activity android:name=".MainActivity">
+            <!-- Other configuration for the activity -->
+        </activity>
+
+
 
     </application>
 
