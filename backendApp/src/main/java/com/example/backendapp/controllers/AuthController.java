@@ -8,15 +8,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class AuthController {
@@ -32,13 +31,16 @@ public class AuthController {
 
             if (token != null) {
                 HttpHeaders headers = authService.createHeader(token);
-                //Map<String, String> responseBody = authService.createSuccessLoginResponse(token);
-                return ResponseEntity.ok().headers(headers).body("Login successful");
+                Map<String, Object> responseBody = new HashMap<>();
+                responseBody.put("email", loginResponseDto.getEmail());
+                responseBody.put("lastName", loginResponseDto.getLastName());
+                responseBody.put("message", "Login successful");
+                return ResponseEntity.ok().headers(headers).body(responseBody);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Failed to create authentication token");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("message", "Failed to create authentication token"));
             }
         }
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("message", "Invalid email or password"));
     }
 }
