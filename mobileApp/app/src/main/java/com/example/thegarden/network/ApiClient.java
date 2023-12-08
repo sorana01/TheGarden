@@ -14,7 +14,7 @@ public class ApiClient {
 
     private void initializeRetrofit(){
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.230:8080")
+                .baseUrl("http://172.20.10.2:8080")
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .build();
     }

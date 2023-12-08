@@ -11,7 +11,10 @@ import android.view.View;
 
 import com.example.thegarden.PlantId.IdentifyPlantUtil;
 import com.example.thegarden.PlantId.PlantIDApi;
+import com.example.thegarden.PlantId.PlantIdentificationCallback;
 import com.example.thegarden.PlantId.RetrofitClient;
+import com.example.thegarden.savePlants.PlantInfo;
+import com.example.thegarden.savePlants.SelectPlantActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.activity.result.ActivityResult;
@@ -26,11 +29,16 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.thegarden.databinding.ActivityMainBinding;
 
+import java.io.Serializable;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     public static PlantIDApi plantIDApi;
     private IdentifyPlantUtil identifyPlant;
+
+    private List<PlantInfo> plantInfoList;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -87,12 +95,23 @@ public class MainActivity extends AppCompatActivity {
                                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                                 if (imageBitmap != null) {
                                     String base64Image = convertBitmapToBase64(imageBitmap);
-                                    identifyPlant.identifyPlantFromBase64(base64Image);
+                                    // Use the modified identifyPlantFromBase64 method with a callback
+                                    new IdentifyPlantUtil(MainActivity.this).identifyPlantFromBase64(base64Image, new PlantIdentificationCallback() {
+                                        @Override
+                                        public void onResult(List<PlantInfo> plantInfoList) {
+                                            if (!plantInfoList.isEmpty()) {
+                                                Intent intent = new Intent(MainActivity.this, SelectPlantActivity.class);
+                                                intent.putExtra("plantInfoList", (Serializable) plantInfoList);
+                                                startActivity(intent);
+                                            } else {
+                                                // Handle the case where no plants were identified or an error occurred
+                                                // This could be showing a toast message or a dialog
+                                            }
+                                        }
+                                    });
+
                                 }
                             }
                         }
                     });
-
-
-
 }

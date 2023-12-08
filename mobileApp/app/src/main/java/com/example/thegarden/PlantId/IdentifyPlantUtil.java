@@ -9,8 +9,11 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.thegarden.savePlants.PlantInfo;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +23,8 @@ import retrofit2.Response;
 
 public class IdentifyPlantUtil {
     private static Context context;
+    private static List<PlantInfo> plantInfoList;
+
     public IdentifyPlantUtil(Context context) {
         this.context = context;
     }
@@ -36,11 +41,11 @@ public class IdentifyPlantUtil {
             public void onResponse(Call<PlantResponse> call, Response<PlantResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     PlantResponse plantResponse = response.body();
-                    List<String> plantNames = plantResponse.getPlantNames();
+                    plantInfoList = plantResponse.getPlantDetails();
 
                     // Log the results
-                    for (String plantName : plantNames) {
-                        Log.d("PlantID", "Identified plant: " + plantName);
+                    for (PlantInfo plant : plantInfoList) {
+                        Log.d("PlantID", "Identified plant: " + plant.getName());
                     }
                 } else {
                     // Handle error
@@ -62,7 +67,7 @@ public class IdentifyPlantUtil {
         });
     }
 
-    public void identifyPlantFromBase64(String base64Image) {
+    public void identifyPlantFromBase64(String base64Image, PlantIdentificationCallback callback) {
         List<String> images = Collections.singletonList(base64Image);
 
         PlantRequest request = new PlantRequest(images, true);
@@ -73,12 +78,14 @@ public class IdentifyPlantUtil {
             public void onResponse(Call<PlantResponse> call, Response<PlantResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     PlantResponse plantResponse = response.body();
-                    List<String> plantNames = plantResponse.getPlantNames();
+                    plantInfoList = plantResponse.getPlantDetails();
 
                     // Log the results
-                    for (String plantName : plantNames) {
-                        Log.d("PlantID", "Identified plant: " + plantName);
+                    for (PlantInfo plant : plantInfoList) {
+                        Log.d("PlantID", "Identified plant: " + plant.getName());
                     }
+                    // Use the callback to return the results
+                    callback.onResult(plantInfoList);
                 } else {
                     // Handle error
                     Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show();
@@ -87,6 +94,7 @@ public class IdentifyPlantUtil {
                     } catch (IOException e) {
                         Log.e("PlantID", "Error reading errorBody", e);
                     }
+                    callback.onResult(new ArrayList<>()); // Return an empty list or handle appropriately
                 }
             }
 
@@ -96,8 +104,10 @@ public class IdentifyPlantUtil {
                 // Handle the error
                 Toast.makeText(context, "API call failed", Toast.LENGTH_SHORT).show();
                 Log.e("PlantID", "API call failed", t);
+                callback.onResult(new ArrayList<>()); // Return an empty list or handle appropriately
             }
         });
+
     }
 
 
