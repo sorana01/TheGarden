@@ -1,5 +1,6 @@
 package com.example.thegarden.PlantId;
 
+import com.example.thegarden.savePlants.PlantInfo;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -18,15 +19,24 @@ public class PlantResponse {
     }
 
     // Helper method to get a list of plant names
-    public List<String> getPlantNames() {
-        List<String> plantNames = new ArrayList<>();
+    public List<PlantInfo> getPlantDetails() {
+        List<PlantInfo> plantDetails = new ArrayList<>();
         if (result != null && result.getClassification() != null) {
             for (Suggestion suggestion : result.getClassification().getSuggestions()) {
-                plantNames.add(suggestion.getName());
+                String imageUrl = null;
+
+                // Check if the list of similar images is not null and not empty
+                if (suggestion.getSimilarImages() != null && !suggestion.getSimilarImages().isEmpty()) {
+                    imageUrl = suggestion.getSimilarImages().get(0).getUrl(); // Get the URL of the first image
+                }
+
+                PlantInfo info = new PlantInfo(suggestion.getName(), imageUrl);
+                plantDetails.add(info);
             }
         }
-        return plantNames;
+        return plantDetails;
     }
+
 }
 
 class PlantResult {
@@ -58,6 +68,8 @@ class Classification {
 class Suggestion {
     @SerializedName("name")
     private String name;
+    @SerializedName("similar_images")
+    private List<SimilarImage> similarImages;
 
     public String getName() {
         return name;
@@ -66,4 +78,28 @@ class Suggestion {
     public void setName(String name) {
         this.name = name;
     }
+
+    // Getters and setters for similarImages
+    public List<SimilarImage> getSimilarImages() {
+        return similarImages;
+    }
+
+    public void setSimilarImages(List<SimilarImage> similarImages) {
+        this.similarImages = similarImages;
+    }
 }
+
+class SimilarImage {
+    @SerializedName("url")
+    private String url;
+
+    // Getters and setters
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+}
+
