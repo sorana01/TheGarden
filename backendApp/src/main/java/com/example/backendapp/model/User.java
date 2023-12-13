@@ -18,6 +18,7 @@ import java.util.Set;
 @Table(name = "users")
 public class User implements UserDetails {
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,6 +43,7 @@ public class User implements UserDetails {
     public String getUsername() {
         return this.email; // Assuming email is used as the username
     }
+
 
     @Override
     public boolean isAccountNonExpired() {

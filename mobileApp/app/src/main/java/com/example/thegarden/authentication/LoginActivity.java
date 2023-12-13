@@ -79,6 +79,12 @@ public class LoginActivity extends AppCompatActivity {
                                 String email = authResponse.getEmail();
                                 String lastName = authResponse.getLastName();
 
+                                SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("userEmail", email);
+                                editor.apply();
+
+
                                 String token = response.headers().get("Authorization"); // Get the token from the response header
                                 if (token != null) {
                                     // Store the token securely
