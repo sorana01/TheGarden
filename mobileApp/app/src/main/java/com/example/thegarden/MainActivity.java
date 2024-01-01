@@ -56,62 +56,13 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_plants, R.id.navigation_scan, R.id.navigation_profile)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        binding.btnCapture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });
 
-
-        binding.yourButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                identifyPlant.identifyPlant(R.drawable.plant1);
-            }
-        });
     }
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            takePictureLauncher.launch(takePictureIntent);
-        }
-    }
-
-    private final ActivityResultLauncher<Intent> takePictureLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                    new ActivityResultCallback<ActivityResult>() {
-                        @Override
-                        public void onActivityResult(ActivityResult result) {
-                            if (result.getResultCode() == Activity.RESULT_OK) {
-                                Bundle extras = result.getData().getExtras();
-                                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                                if (imageBitmap != null) {
-                                    String base64Image = convertBitmapToBase64(imageBitmap);
-                                    // Use the modified identifyPlantFromBase64 method with a callback
-                                    new IdentifyPlantUtil(MainActivity.this).identifyPlantFromBase64(base64Image, new PlantIdentificationCallback() {
-                                        @Override
-                                        public void onResult(List<PlantInfo> plantInfoList) {
-                                            if (!plantInfoList.isEmpty()) {
-                                                Intent intent = new Intent(MainActivity.this, SelectPlantActivity.class);
-                                                intent.putExtra("plantInfoList", (Serializable) plantInfoList);
-                                                startActivity(intent);
-                                            } else {
-                                                // Handle the case where no plants were identified or an error occurred
-                                                // This could be showing a toast message or a dialog
-                                            }
-                                        }
-                                    });
-
-                                }
-                            }
-                        }
-                    });
+    
 }
