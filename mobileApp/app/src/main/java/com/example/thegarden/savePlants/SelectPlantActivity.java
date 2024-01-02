@@ -2,7 +2,6 @@ package com.example.thegarden.savePlants;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.example.thegarden.PlantId.RetrofitClient;
 import com.example.thegarden.databinding.ActivitySelectPlantBinding;
 import com.example.thegarden.dto.PlantSaveRequestDto;
@@ -31,7 +29,6 @@ public class SelectPlantActivity extends AppCompatActivity {
     private ActivitySelectPlantBinding binding;
     private ViewPagerAdapter adapter;
     private ArrayList<PlantInfo> plantInfoList;
-    private Uri imageUri;
 
     private String userEmail;
 
@@ -44,8 +41,6 @@ public class SelectPlantActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             plantInfoList = (ArrayList<PlantInfo>) intent.getSerializableExtra("plantInfoList");
-            imageUri = intent.getParcelableExtra("capturedImageUri");
-            Glide.with(this).load(imageUri).into(binding.imageViewCaptured);
             if (plantInfoList != null) {
                 adapter = new ViewPagerAdapter(plantInfoList);
                 binding.viewPager.setAdapter(adapter);
