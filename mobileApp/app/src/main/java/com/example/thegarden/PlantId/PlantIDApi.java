@@ -6,7 +6,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface PlantIDApi {
-    @Headers("Api-Key: a1SyPAFMAX1N8rmpQSsD7bucjzvp4cpc5ywuYguVSoeIspshU9")
+    @Headers("Api-Key: DxMHU11qdj0P45qivaonzuq0NVTEPWFW4NKEOpL2pPyv3Gtuii")
     @POST("https://plant.id/api/v3/identification")
     Call<PlantResponse> identifyPlant(@Body PlantRequest plantRequest);
 }
