@@ -8,23 +8,19 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.thegarden.savePlants.PlantInfo;
+
+import java.util.List;
+
 public class ScanViewModel extends ViewModel {
 
-    private final MutableLiveData<ImageView> mImage;
-    private final MutableLiveData<ViewPager2> mViewPager;
-    private final MutableLiveData<Button> mButton;
+    private MutableLiveData<List<PlantInfo>> plantInfoList = new MutableLiveData<>();
 
-    public ScanViewModel() {
-        mImage = new MutableLiveData<>();
-        mViewPager = new MutableLiveData<>();
-        mButton = new MutableLiveData<>();
+    public LiveData<List<PlantInfo>> getPlantInfoList() {
+        return plantInfoList;
     }
 
-    public LiveData<ImageView> getImage() {
-        return mImage;
-    }
-
-    public LiveData<ViewPager2> getViewPager() {
-        return mViewPager;
+    public void setPlantInfoList(List<PlantInfo> list) {
+        plantInfoList.setValue(list);
     }
 }
