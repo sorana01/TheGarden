@@ -15,6 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -39,6 +48,17 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import com.example.thegarden.MainActivity;
+import com.example.thegarden.PlantId.IdentifyPlantUtil;
+import com.example.thegarden.PlantId.PlantIdentificationCallback;
+import com.example.thegarden.databinding.FragmentHomeBinding;
+import com.example.thegarden.databinding.FragmentScanBinding;
+import com.example.thegarden.savePlants.PlantInfo;
+import com.example.thegarden.savePlants.SelectPlantActivity;
+
+import java.io.Serializable;
+import java.util.List;
 
 public class ScanFragment extends Fragment {
 
@@ -161,11 +181,18 @@ public class ScanFragment extends Fragment {
 //    }
 
         private void startCamera() {
+        dispatchTakePictureIntent();
+        return root;
+    }
+
+
+    private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             takePictureLauncher.launch(takePictureIntent);
         }
     }
+
 
 //    private void onPlantIdentified(List<PlantInfo> plantInfoList) {
 //        this.plantInfoList = plantInfoList;
@@ -175,6 +202,7 @@ public class ScanFragment extends Fragment {
 //        binding.selectionButtons.setVisibility(View.VISIBLE); // Make buttons visible
 //        updateButtonVisibility();
 //    }
+
 
     private final ActivityResultLauncher<Intent> takePictureLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -190,10 +218,12 @@ public class ScanFragment extends Fragment {
                                         Log.d("SAVE IMG", "getContext() is null - unable to save imageUri");
                                     }
                                     Uri imageUri = IdentifyPlantUtil.saveImageToFile(getContext(), imageBitmap, "captured_image.jpg");
+
                                     // Use the modified identifyPlantFromBase64 method with a callback
                                     new IdentifyPlantUtil(getActivity()).identifyPlantFromBase64(base64Image, new PlantIdentificationCallback() {
                                         @Override
                                         public void onResult(List<PlantInfo> plantInfoList) {
+
                                             if (!plantInfoList.isEmpty() && imageUri!=null) {
                                                 Log.d("IF LOOP", "Breaks here");
                                                 Intent intent = new Intent(getActivity(), SelectPlantActivity.class);
@@ -201,6 +231,10 @@ public class ScanFragment extends Fragment {
                                                 intent.putExtra("capturedImageUri", imageUri);
                                                 // Grant temporary read permission to the Uri
                                                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                                            if (!plantInfoList.isEmpty()) {
+                                                Intent intent = new Intent(getActivity(), SelectPlantActivity.class);
+                                                intent.putExtra("plantInfoList", (Serializable) plantInfoList);
                                                 startActivity(intent);
                                             } else {
                                                 // Handle the case where no plants were identified or an error occurred

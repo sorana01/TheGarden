@@ -22,5 +22,10 @@ public class ScanViewModel extends ViewModel {
 
     public void setPlantInfoList(List<PlantInfo> list) {
         plantInfoList.setValue(list);
+
+
+    public ScanViewModel() {
     }
+
+
 }
