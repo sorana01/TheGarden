@@ -22,7 +22,7 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="200dp"
             android:padding="16dp"/>
 
         <!-- LinearLayout for buttons -->
