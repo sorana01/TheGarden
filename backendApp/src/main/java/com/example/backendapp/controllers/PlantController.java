@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/plants")
@@ -34,6 +36,12 @@ public class PlantController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new PlantSaveResponseDto(false, "Failed to save plant. Please try again later."));
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Plant>> getPlantsForCurrentUser() {
+        List<Plant> plants = plantService.getPlantsForCurrentUser();
+        return ResponseEntity.ok(plants);
     }
 
 }

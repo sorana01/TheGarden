@@ -9,7 +9,11 @@ import com.example.backendapp.repository.PlantRepository;
 import com.example.backendapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +35,15 @@ public class PlantServiceImpl implements PlantService{
         } catch (Exception e) {
             throw new PlantSaveException("Save failed: Unable to save plant. Details: " + e.getMessage());
         }
+    }
+
+    @Override
+    public List<Plant> getPlantsForCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName(); // This gets the email of the logged-in user
+        User user = userRepository.findByEmail(userEmail);
+        Long userId = user.getId();
+        return plantRepository.findByUserId(userId);
     }
 
 }
