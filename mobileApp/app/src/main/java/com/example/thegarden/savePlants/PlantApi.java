@@ -8,12 +8,13 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface PlantApi {
     @POST("api/plants")
-    Call<PlantSaveResponseDto> savePlant(@Body PlantSaveRequestDto plantSaveRequestDto);
+    Call<PlantSaveResponseDto> savePlant(@Body PlantSaveRequestDto plantSaveRequestDto, @Header("Authorization") String authToken);
 
     @GET("api/plants")
-    Call<List<PlantInfo>> getPlantsForCurrentUser();
+    Call<List<PlantInfo>> getPlantsForCurrentUser(@Header("Authorization") String authToken);
 }
