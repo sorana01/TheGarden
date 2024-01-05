@@ -23,10 +23,10 @@ public class PlantServiceImpl implements PlantService{
     private final UserRepository userRepository; // Assuming a UserRepository exists
     private static final Logger logger = LoggerFactory.getLogger(PlantServiceImpl.class);
 
-
     @Override
     public void savePlant(PlantSaveRequestDto plantSaveRequest) {
-        User user = userRepository.findByEmail(plantSaveRequest.getUserEmail());
+        String userEmail = getCurrentUserEmail();
+        User user = userRepository.findByEmail(userEmail);
         if (user == null) {
             throw new UserNotFoundException("Save failed: User not found.");
         }
@@ -41,13 +41,20 @@ public class PlantServiceImpl implements PlantService{
 
     @Override
     public List<Plant> getPlantsForCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = authentication.getName(); // This gets the email of the logged-in user
+        String userEmail = getCurrentUserEmail();
         logger.info("User details - userEmail: {}", userEmail);
         User user = userRepository.findByEmail(userEmail);
         logger.info("User details - ID: {}, Email: {}, First Name: {}, Last Name: {}", user.getId(), user.getEmail(),user.getFirstName(), user.getLastName());
         Long userId = user.getId();
         return plantRepository.findByUserId(userId);
+    }
+
+    private String getCurrentUserEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            throw new IllegalStateException("Authentication information not available");
+        }
+        return authentication.getName();
     }
 
 }
