@@ -38,6 +38,13 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
                 .into(holder.imageViewPlant);
     }
 
+    public void updateData(List<PlantInfo> newData) {
+        this.plants.clear();
+        this.plants.addAll(newData);
+        notifyDataSetChanged();
+    }
+
+
     @Override
     public int getItemCount() {
         return plants.size();

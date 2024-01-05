@@ -1,6 +1,8 @@
 package com.example.thegarden.ui.plants;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,28 +51,47 @@ public class PlantsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         // Make API Call
-        ApiClient retrofit = new ApiClient();
-        PlantApi service = retrofit.getRetrofit().create(PlantApi.class);
-        Call<List<PlantInfo>> call = service.getPlantsForCurrentUser();
+//        ApiClient retrofit = new ApiClient();
+//        PlantApi service = retrofit.getRetrofit().create(PlantApi.class);
+//        Call<List<PlantInfo>> call = service.getPlantsForCurrentUser();
 
-        call.enqueue(new Callback<List<PlantInfo>>() {
-            @Override
-            public void onResponse(Call<List<PlantInfo>> call, Response<List<PlantInfo>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<PlantInfo> plantList = response.body();
-                    adapter = new PlantAdapter(plantList);
-                    recyclerView.setAdapter(adapter);
-                } else {
-                    String error = parseError(response);
-                    Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+        if (getContext() == null)
+            Log.d("getContext() in PlantsFragment", "NULL");
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MySharedPrefs", getContext().MODE_PRIVATE);
+        String token = sharedPreferences.getString("AuthToken", null);
+        String tokenKnown = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzb3JhbmFAeWFob28uY29tIiwibGFzdE5hbWUiOiJYIiwiaWF0IjoxNzA0NDU1MjAyLCJleHAiOjE3MDQ3MTQ0MDJ9.409En_78v1yz5OwE31kV2RQr-u7aD-OHPC-t_JNGmC75mjqCXph_PTpoTouiTMTkjJTHXAnxxjdyd3aiUj8EVg";
+        Log.d("SharedPreferences", "JWT Token: " + token);
+
+        if (token != null && !token.isEmpty()) {
+            ApiClient retrofit = new ApiClient();
+            PlantApi service = retrofit.getRetrofit().create(PlantApi.class);
+            Call<List<PlantInfo>> call = service.getPlantsForCurrentUser(token);
+            Log.d("API Request", "Authorization header: Bearer " + token);
+
+            call.enqueue(new Callback<List<PlantInfo>>() {
+                @Override
+                public void onResponse(Call<List<PlantInfo>> call, Response<List<PlantInfo>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        List<PlantInfo> plantList = response.body();
+                        adapter = new PlantAdapter(plantList);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        String error = parseError(response);
+                        Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<PlantInfo>> call, Throwable t) {
-                // Handle API call failure
-            }
-        });
+                @Override
+                public void onFailure(Call<List<PlantInfo>> call, Throwable t) {
+                    // Handle API call failure
+                }
+            });
+        } else {
+            // Handle the case where token is null or empty
+            Toast.makeText(getContext(), "Authentication token not found. Please login again.", Toast.LENGTH_LONG).show();
+            // Optionally, redirect the user to the login screen
+        }
+
         return root;
     }
 
