@@ -2,8 +2,8 @@ package com.example.thegarden.registration;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,11 +24,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegistrationActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_register_2);
 
         initializeComponents();
     }
@@ -40,7 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
         TextInputEditText inputEditTextPassword = findViewById(R.id.passwordEditText);
         MaterialButton buttonRegister = findViewById(R.id.registerButton);
 
-        MaterialButton buttonLogin = findViewById(R.id.loginButton);
+        TextView buttonLogin = findViewById(R.id.loginButton);
 
         buttonLogin.setOnClickListener(view -> {
             Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
