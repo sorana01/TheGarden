@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class PlantSaveRequestDto {
     private String name;
     private String imageUrl;
+    private String userEmail;
 }

@@ -34,7 +34,6 @@ public class SelectPlantActivity extends AppCompatActivity {
     private Uri imageUri;
 
     private String userEmail;
-    private String token;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,8 +61,6 @@ public class SelectPlantActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
         userEmail = sharedPreferences.getString("userEmail", null); // Default to 'null' if not found
-        token = sharedPreferences.getString("AuthToken", null);
-
 
         if (userEmail != null) {
             // Add a listener for a button to send the plant data
@@ -117,15 +114,13 @@ public class SelectPlantActivity extends AppCompatActivity {
         int currentPlantIndex = binding.viewPager.getCurrentItem();
         PlantInfo currentPlant = plantInfoList.get(currentPlantIndex);
 
-        PlantSaveRequestDto requestDto = new PlantSaveRequestDto(currentPlant.getName(), currentPlant.getImageUrl());
-        Log.d("SharedPreferences(2)", "JWT Token: " + token);
-
+        PlantSaveRequestDto requestDto = new PlantSaveRequestDto(currentPlant.getName(), currentPlant.getImageUrl(), userEmail);
 
         // Create Retrofit API call
         ApiClient retrofitService = new ApiClient();
         PlantApi plantApi = retrofitService.getRetrofit().create(PlantApi.class);
 
-        plantApi.savePlant(requestDto, token).enqueue(new Callback<PlantSaveResponseDto>() {
+        plantApi.savePlant(requestDto).enqueue(new Callback<PlantSaveResponseDto>() {
             @Override
             public void onResponse(Call<PlantSaveResponseDto> call, Response<PlantSaveResponseDto> response) {
                 if (response.isSuccessful() && response.body() != null) {

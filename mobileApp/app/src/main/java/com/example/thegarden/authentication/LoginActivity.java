@@ -86,7 +86,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                 String token = response.headers().get("Authorization"); // Get the token from the response header
-//                                Log.d("SharedPreferences", "JWT Token: " + token);
                                 if (token != null) {
                                     // Store the token securely
                                     storeTokenSecurely(token);
@@ -117,12 +116,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void storeTokenSecurely(String token) {
-        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("YourAppPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("AuthToken", token.trim());
+        editor.putString("AuthToken", token);
         editor.apply();
-
-        //Log.d("SharedPreferences", "JWT Token: " + token);
     }
 
     private String parseError(Response<?> response) {
