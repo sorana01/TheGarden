@@ -24,6 +24,7 @@
         <activity
             android:name=".registration.RegistrationActivity"
             android:exported="true"
+            android:theme="@style/Theme.LoginAndRegister"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,7 +33,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".authentication.LoginActivity">
+        <activity
+            android:name=".authentication.LoginActivity"
+            android:theme="@style/Theme.LoginAndRegister">
         </activity>
         <activity android:name=".MainActivity">
             <!-- Other configuration for the activity -->
