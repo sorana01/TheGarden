@@ -88,7 +88,7 @@ public class JwtService {
     }
     public String generateToken(
             String email,
-            String lastName
+            String firstName
     ) {
         String jwtToken;
 
@@ -96,7 +96,7 @@ public class JwtService {
                 .setHeaderParam("alg", "HS512")
                 .setHeaderParam("typ", "JWT")
                 .setSubject(email)
-                .claim("lastName", lastName)
+                .claim("firstName", firstName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS512)

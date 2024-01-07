@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthResponseDto {
     private String email;
-    private String lastName;
+    private String firstName;
 }

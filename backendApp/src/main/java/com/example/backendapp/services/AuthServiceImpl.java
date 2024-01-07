@@ -43,7 +43,7 @@ public class AuthServiceImpl implements AuthService{
         if (userEntity != null && passwordEncoder.matches(loginRequestDto.getPassword(),userEntity.getPassword())) {
             AuthResponseDto responseDto = new AuthResponseDto();
             responseDto.setEmail(userEntity.getEmail());
-            responseDto.setLastName(userEntity.getLastName());
+            responseDto.setFirstName(userEntity.getFirstName());
             return responseDto;
         }
         return null;
@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public String createToken(AuthResponseDto loginResponseDto) {
 
-        String jwt = jwtTokenService.generateToken(loginResponseDto.getEmail(), loginResponseDto.getLastName());
+        String jwt = jwtTokenService.generateToken(loginResponseDto.getEmail(), loginResponseDto.getFirstName());
         return jwt;
     }
 
