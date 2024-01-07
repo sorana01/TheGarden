@@ -77,11 +77,12 @@ public class LoginActivity extends AppCompatActivity {
                             if (response.isSuccessful() && response.body() != null) {
                                 AuthResponseDto authResponse = response.body();
                                 String email = authResponse.getEmail();
-                                String lastName = authResponse.getLastName();
+                                String firstName = authResponse.getFirstName();
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("userEmail", email);
+                                editor.putString("userFirstName", firstName);
                                 editor.apply();
 
 

@@ -33,7 +33,7 @@ public class AuthController {
                 HttpHeaders headers = authService.createHeader(token);
                 Map<String, Object> responseBody = new HashMap<>();
                 responseBody.put("email", loginResponseDto.getEmail());
-                responseBody.put("lastName", loginResponseDto.getLastName());
+                responseBody.put("firstName", loginResponseDto.getFirstName());
                 responseBody.put("message", "Login successful");
                 return ResponseEntity.ok().headers(headers).body(responseBody);
             } else {

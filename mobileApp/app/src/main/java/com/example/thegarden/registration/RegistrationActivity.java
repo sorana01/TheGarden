@@ -2,6 +2,9 @@ package com.example.thegarden.registration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +40,44 @@ public class RegistrationActivity extends AppCompatActivity {
         TextInputEditText inputEditTextLastName = findViewById(R.id.lastNameEditText);
         TextInputEditText inputEditTextEmail = findViewById(R.id.emailEditText);
         TextInputEditText inputEditTextPassword = findViewById(R.id.passwordEditText);
+        TextInputEditText inputEditTextConfirmPassword = findViewById(R.id.confirmPasswordEditText); // Make sure you have this field in your XML
+        TextView textViewPasswordMismatch = findViewById(R.id.textViewPasswordMismatch);
         MaterialButton buttonRegister = findViewById(R.id.registerButton);
+
+        buttonRegister.setEnabled(false); //disable register
+
+
+        // Create a common TextWatcher for both password fields
+        TextWatcher passwordWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Nothing needed here
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Nothing needed here
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String password = inputEditTextPassword.getText().toString();
+                String confirmPassword = inputEditTextConfirmPassword.getText().toString();
+
+                if (!password.equals(confirmPassword)) {
+                    textViewPasswordMismatch.setVisibility(View.VISIBLE);
+                    buttonRegister.setEnabled(false);
+                } else {
+                    textViewPasswordMismatch.setVisibility(View.GONE);
+                    buttonRegister.setEnabled(true);
+                }
+            }
+        };
+
+        // Assign the TextWatcher to both EditText fields
+        inputEditTextPassword.addTextChangedListener(passwordWatcher);
+        inputEditTextConfirmPassword.addTextChangedListener(passwordWatcher);
+
 
         TextView buttonLogin = findViewById(R.id.loginButton);
 
