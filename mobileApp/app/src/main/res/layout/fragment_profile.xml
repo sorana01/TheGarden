@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/profilepic">
+    android:background="@drawable/bgprofile3">
 
     <!-- Circular Profile Card -->
     <androidx.cardview.widget.CardView
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/defaultprofile" />
+            android:src="@drawable/profile2" />
     </androidx.cardview.widget.CardView>
 
     <!-- Name and Email Text -->
@@ -50,11 +50,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewProfileEmail"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginBottom="16dp"
         android:orientation="vertical"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:layout_marginBottom="16dp">
+        android:paddingEnd="16dp">
 
         <!-- Settings App -->
         <!-- Repeat this structure for each setting item -->
@@ -64,14 +64,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="#FFFFFF"
             android:layout_marginBottom="8dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="onSettingsClick">
+            android:onClick="onSettingsClick"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -88,19 +88,19 @@
                     android:id="@+id/textViewSettingsProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/imageViewSettingsProfileIcon"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@id/imageViewSettingsProfileIcon"
                     android:text="Settings app"
-                    android:textSize="18sp"
-                    android:textColor="@color/green_700" />
+                    android:textColor="@color/green_700"
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_chevron_right_24"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_chevron_right_24" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -109,16 +109,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="#FFFFFF"
             android:layout_marginBottom="8dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="onSettingsClick">
+            android:onClick="onSettingsClick"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp">
 
-        <RelativeLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp">
@@ -133,19 +133,19 @@
                     android:id="@+id/textViewContactUs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/imageViewContactUs"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@id/imageViewContactUs"
                     android:text="Contact us"
-                    android:textSize="18sp"
-                    android:textColor="@color/green_700" />
+                    android:textColor="@color/green_700"
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_chevron_right_24"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_chevron_right_24" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -154,17 +154,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="#FFFFFF"
             android:layout_marginBottom="8dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="onSettingsClick">
+            android:onClick="onSettingsClick"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp">
 
 
-        <RelativeLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp">
@@ -179,19 +179,19 @@
                     android:id="@+id/textViewNotification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/imageViewNotification"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@id/imageViewNotification"
                     android:text="Notifications"
-                    android:textSize="18sp"
-                    android:textColor="@color/green_700" />
+                    android:textColor="@color/green_700"
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_chevron_right_24"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_chevron_right_24" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -200,21 +200,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="#FFFFFF"
             android:layout_marginBottom="8dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="onSettingsClick">
+            android:onClick="onSettingsClick"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp">
 
 
-        <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                >
+            <RelativeLayout
+                android:layout_width="380dp"
+                android:layout_height="match_parent"
+                android:padding="16dp">
 
                 <ImageView
                     android:id="@+id/imageViewTakePhoto"
@@ -226,19 +225,19 @@
                     android:id="@+id/textViewTakePhoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/imageViewTakePhoto"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@id/imageViewTakePhoto"
                     android:text="How to scan a plant"
-                    android:textSize="18sp"
-                    android:textColor="@color/green_700" />
+                    android:textColor="@color/green_700"
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_chevron_right_24"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_chevron_right_24" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
         <!-- Repeat for other settings -->
