@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,12 +17,14 @@ import com.example.thegarden.authentication.LoginActivity;
 import com.example.thegarden.dto.RegistrationRequestDto;
 import com.example.thegarden.network.ApiClient;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -103,35 +106,48 @@ public class RegistrationActivity extends AppCompatActivity {
             register.setPassword(password);
 
             registrationApi.saveUser(register)
-                    .enqueue(new Callback<RegistrationRequestDto>() {
+                    .enqueue(new Callback<ResponseBody>() { // Note the use of ResponseBody here instead of RegistrationRequestDto
                         @Override
-                        public void onResponse(Call<RegistrationRequestDto> call, Response<RegistrationRequestDto> response) {
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             if (response.isSuccessful()) {
-                                // Response is successful (status code 200-299)
-                                Toast.makeText(RegistrationActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                            } else {
-                                // Response is not successful, get error message from response
+                                // Registration is successful
                                 try {
-                                    String errorMessage = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
-                                    Toast.makeText(RegistrationActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                                    // Use response.body().string() to get the response text
+                                    String successMessage = response.body() != null ? response.body().string() : "Registration Successful";
+                                    showSnackbar(successMessage, false);
                                 } catch (IOException e) {
-                                    Toast.makeText(RegistrationActivity.this, "Error reading error message", Toast.LENGTH_SHORT).show();
+                                    Log.e("RegistrationActivity", "Error reading success message", e);
+                                    showSnackbar("Registration Successful", false);
                                 }
+                            } else {
+                                // There is an error during registration
+                                String errorMessage = "Unknown error";
+                                try {
+                                    errorMessage = response.errorBody() != null ? response.errorBody().string() : errorMessage;
+                                } catch (IOException e) {
+                                    Log.e("RegistrationActivity", "Error reading error message", e);
+                                }
+                                showSnackbar(errorMessage, true);
                             }
                         }
 
-
                         @Override
-                        public void onFailure(Call<RegistrationRequestDto> call, Throwable t) {
-                            Toast.makeText(RegistrationActivity.this, "Save failed", Toast.LENGTH_SHORT).show();
-                            Logger.getLogger(RegistrationActivity.class.getName()).log(Level.SEVERE,"Error occurred",t);
-
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            showSnackbar("Save failed: " + t.getMessage(), true);
                         }
                     });
-
-
         });
+    }
 
+    private void showSnackbar(String message, boolean isError) {
+        View contextView = findViewById(android.R.id.content); // Find the main content view (you may need to replace this with your root layout id)
+        Snackbar snackbar = Snackbar.make(contextView, message, Snackbar.LENGTH_LONG);
+        if (isError) {
+            snackbar.setBackgroundTint(getResources().getColor(R.color.errorColor)); // Set the background color for error messages
+        } else {
+            snackbar.setBackgroundTint(getResources().getColor(R.color.successColor)); // Set the background color for success messages
+        }
+        snackbar.show();
     }
 
 }
