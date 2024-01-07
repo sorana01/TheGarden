@@ -29,7 +29,7 @@ public class ProfileFragment extends Fragment {
         setUpCardViewClickListeners();
 
         // Observe the name and email LiveData objects
-        profileViewModel.getLastName().observe(getViewLifecycleOwner(), name -> {
+        profileViewModel.getFirstName().observe(getViewLifecycleOwner(), name -> {
             binding.textViewProfileName.setText(name);
         });
 

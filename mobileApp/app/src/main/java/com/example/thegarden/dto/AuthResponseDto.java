@@ -2,7 +2,7 @@ package com.example.thegarden.dto;
 
 public class AuthResponseDto {
     private String email;
-    private String lastName;
+    private String firstName;
 
     // Getters and setters
     public String getEmail() {
@@ -13,11 +13,9 @@ public class AuthResponseDto {
         this.email = email;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
+    public String getFirstName() {  return firstName; }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setFirstName(String lastName) {
+        this.firstName = lastName;
     }
 }
