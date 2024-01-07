@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,8 +17,10 @@ public class ProfileFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        // Use ViewModelProvider.AndroidViewModelFactory to create a ViewModelProvider
         ProfileViewModel profileViewModel =
-                new ViewModelProvider(this).get(ProfileViewModel.class);
+                new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()))
+                        .get(ProfileViewModel.class);
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -25,9 +28,17 @@ public class ProfileFragment extends Fragment {
         // Set up the logic for each CardView click
         setUpCardViewClickListeners();
 
+        // Observe the name and email LiveData objects
+        profileViewModel.getLastName().observe(getViewLifecycleOwner(), name -> {
+            binding.textViewProfileName.setText(name);
+        });
+
+        profileViewModel.getEmail().observe(getViewLifecycleOwner(), email -> {
+            binding.textViewProfileEmail.setText(email);
+        });
+
         return root;
     }
-
     private void setUpCardViewClickListeners() {
         // Assuming you have set the IDs for each CardView in your layout
         binding.cardViewSettingsProfile.setOnClickListener(v -> onSettingsClick());
