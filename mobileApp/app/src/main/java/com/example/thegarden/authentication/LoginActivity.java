@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void storeTokenSecurely(String token) {
-        SharedPreferences sharedPreferences = getSharedPreferences("YourAppPreferences", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("AuthToken", token);
         editor.apply();
