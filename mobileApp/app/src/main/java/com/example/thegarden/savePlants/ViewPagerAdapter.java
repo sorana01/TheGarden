@@ -43,7 +43,7 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
 
     @Override
     public int getItemCount() {
-        return plantInfoList.size();
+        return Math.min(plantInfoList.size(), 3);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
