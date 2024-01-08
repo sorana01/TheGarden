@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -75,7 +76,7 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
     public static class PlantViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageViewPlant;
         public TextView textViewPlantName;
-        public Button buttonDeletePlant;
+        public ImageButton buttonDeletePlant;
 
         public PlantViewHolder(View itemView) {
             super(itemView);
