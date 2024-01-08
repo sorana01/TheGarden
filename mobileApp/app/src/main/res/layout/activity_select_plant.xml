@@ -1,56 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- Fullscreen ImageView for the captured image -->
+    <!-- Fullscreen ImageView for the background image -->
     <ImageView
         android:id="@+id/imageViewCaptured"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-    <!-- Semi-transparent overlay for the ViewPager2 and buttons -->
-    <LinearLayout
+    <!-- CardView that wraps the content -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:background="#AA000000">
+        android:backgroundTint="#802D2D2D"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonWrongPlant"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <!-- ViewPager2 for selecting the plant -->
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
+        <!-- FrameLayout for overlaying the ViewPager and Button -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:padding="16dp"/>
+            android:layout_height="200dp">
 
-        <!-- LinearLayout for buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:padding="16dp">
+            <!-- ViewPager for the image and title -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-            <!-- Buttons (Back, Next, Save) -->
+            <!-- Button that overlaps the ViewPager on the center right -->
             <Button
-                android:id="@+id/buttonPrev"
+                android:id="@+id/buttonSave"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Back" />
+                android:layout_height="120dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="1dp"
+                android:background="@drawable/semi_circle_button_bkg"
+                android:elevation="12dp"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/green_200"
+                android:textSize="40sp"
+                app:backgroundTint="@color/gray" /> <!-- Adjust the margin as needed -->
 
-            <Button
-                android:id="@+id/buttonNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Next" />
+        </FrameLayout>
 
-            <Button
-                android:id="@+id/saveButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Save" />
-        </LinearLayout>
-    </LinearLayout>
-</RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonWrongPlant"
+        android:text="It's the wrong plant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="95dp"
+        android:layout_marginHorizontal="30dp"
+        android:backgroundTint="#802D2D2D"
+        android:textColor="@color/green_200"
+        app:cardCornerRadius="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewCaptured"
+        style="@style/CustomButton"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,6 +43,11 @@
         <activity android:name=".savePlants.SelectPlantActivity">
         </activity>
 
+        <activity android:name=".ui.errors.PlantNotRecognizedActivity">
+            <!-- Any additional configuration for the activity -->
+        </activity>
+
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

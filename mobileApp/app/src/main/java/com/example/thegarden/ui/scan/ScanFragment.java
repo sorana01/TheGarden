@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -55,6 +57,15 @@ public class ScanFragment extends Fragment {
 
         binding = FragmentScanBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        // Handle the back button event
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back press event
+                startCamera();
+            }
+        });
 
         startCamera();
         return root;

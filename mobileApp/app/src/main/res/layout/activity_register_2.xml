@@ -39,15 +39,11 @@
                 android:paddingBottom="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="First Name"
                 style="@style/CustomTextInputLayout">
 
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
                     android:id="@+id/firstNameEditText"
                     android:drawableLeft="@drawable/ic_register_name_24"
                     android:inputType="textPersonName"
@@ -55,43 +51,31 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="Last Name"
                 style="@style/CustomTextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/lastNameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
                     android:drawableLeft="@drawable/ic_register_name_24"
                     android:inputType="textPersonName"
                     style="@style/CustomTextInputEditText"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="Email"
                 style="@style/CustomTextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
                     android:id="@+id/emailEditText"
                     android:drawableLeft="@drawable/ic_profile_fragment_24"
                     style="@style/CustomTextInputEditText"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="Password"
                 style="@style/CustomTextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
                     android:id="@+id/passwordEditText"
                     android:drawableLeft="@drawable/ic_login_password_24"
                     android:inputType="textPassword"
@@ -99,14 +83,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="Confirm Password"
                 style="@style/CustomTextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
                     android:id="@+id/confirmPasswordEditText"
                     android:drawableLeft="@drawable/ic_login_password_24"
                     android:inputType="textPassword"
@@ -127,14 +107,9 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
                 android:id="@+id/registerButton"
                 android:text="Register"
-                android:textSize="18sp"
-                android:layout_marginTop="25dp"
-                android:backgroundTint="@color/green_700"
-                app:cornerRadius = "20dp"/>
+                style="@style/CustomButton"/>
 
         </LinearLayout>
 

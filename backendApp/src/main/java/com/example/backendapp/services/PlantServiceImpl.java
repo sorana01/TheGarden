@@ -31,6 +31,16 @@ public class PlantServiceImpl implements PlantService{
             throw new UserNotFoundException("Save failed: User not found.");
         }
 
+        // Get all plants for the current user
+        List<Plant> userPlants = getPlantsForCurrentUser();
+
+        // Check if a plant with the same name already exists for the user
+        for (Plant existingPlant : userPlants) {
+            if (existingPlant.getName().equalsIgnoreCase(plantSaveRequest.getName())) {
+                throw new PlantSaveException("Save failed: Plant with the same name already exists for this user.");
+            }
+        }
+
         try {
             Plant plant = new Plant(plantSaveRequest.getName(), plantSaveRequest.getImageUrl(), user);
             plantRepository.save(plant);

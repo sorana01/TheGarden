@@ -8,15 +8,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
+import com.example.thegarden.MainActivity;
 import com.example.thegarden.PlantId.RetrofitClient;
 import com.example.thegarden.databinding.ActivitySelectPlantBinding;
 import com.example.thegarden.dto.PlantSaveRequestDto;
 import com.example.thegarden.dto.PlantSaveResponseDto;
 import com.example.thegarden.network.ApiClient;
+import com.example.thegarden.ui.errors.PlantNotRecognizedActivity;
+import com.example.thegarden.ui.scan.ScanFragment;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -42,11 +48,26 @@ public class SelectPlantActivity extends AppCompatActivity {
         binding = ActivitySelectPlantBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Handle the back button event
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(SelectPlantActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish(); // Optionally, if you want to close the current activity
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+
+
         Intent intent = getIntent();
         if (intent != null) {
             plantInfoList = (ArrayList<PlantInfo>) intent.getSerializableExtra("plantInfoList");
             imageUri = intent.getParcelableExtra("capturedImageUri");
-            Glide.with(this).load(imageUri).into(binding.imageViewCaptured);
+            Glide.with(this)
+                    .load(imageUri)
+                    .signature(new ObjectKey(System.currentTimeMillis())) // Use a unique signature to prevent caching issues
+                    .into(binding.imageViewCaptured);
             if (plantInfoList != null) {
                 adapter = new ViewPagerAdapter(plantInfoList);
                 binding.viewPager.setAdapter(adapter);
@@ -56,22 +77,50 @@ public class SelectPlantActivity extends AppCompatActivity {
             }
         }
 
-        binding.buttonNext.setOnClickListener(v -> navigateSlide(true));
-        binding.buttonPrev.setOnClickListener(v -> navigateSlide(false));
-        updateButtonVisibility();
+        // Set OnClickListener for the save button
+        binding.buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                savePlantData();
+            }
+        });
+
+        binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                // Change the behavior of the button based on the current page
+                if (position < 2) {
+                    // For the first two pages, set the button to move to the next slide
+                    binding.buttonWrongPlant.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Move to the next slide
+                            binding.viewPager.setCurrentItem(position + 1, true);
+                        }
+                    });
+                } else {
+                    // On the third page, keep the original behavior of the button
+                    binding.buttonWrongPlant.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Open a new intent as originally intended
+                            Intent intent = new Intent(SelectPlantActivity.this, PlantNotRecognizedActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            }
+        });
+
+
 
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
         userEmail = sharedPreferences.getString("userEmail", null); // Default to 'null' if not found
         token = sharedPreferences.getString("AuthToken", null);
 
+        // binding.viewPager.setOnClickListener(v -> savePlantData());
 
-        if (userEmail != null) {
-            // Add a listener for a button to send the plant data
-            binding.saveButton.setOnClickListener(v -> savePlantData());
-        } else {
-            Toast.makeText(SelectPlantActivity.this, "Email not found", Toast.LENGTH_SHORT).show();
-
-        }
 
     }
 
@@ -88,28 +137,7 @@ public class SelectPlantActivity extends AppCompatActivity {
                 binding.viewPager.setCurrentItem(currentItem - 1);
             }
         }
-        updateButtonVisibility();
-    }
-
-    private void updateButtonVisibility() {
-        int currentItem = binding.viewPager.getCurrentItem();
-        int itemCount = adapter.getItemCount();
-
-        // Show only the "Back" button on the first slide
-        if (currentItem == 0) {
-            binding.buttonPrev.setVisibility(View.GONE);
-            binding.buttonNext.setVisibility(View.VISIBLE);
-        }
-        // Show only the "Next" button on the last slide
-        else if (currentItem == itemCount - 1) {
-            binding.buttonNext.setVisibility(View.GONE);
-            binding.buttonPrev.setVisibility(View.VISIBLE);
-        }
-        // Show both buttons on all other slides
-        else {
-            binding.buttonNext.setVisibility(View.VISIBLE);
-            binding.buttonPrev.setVisibility(View.VISIBLE);
-        }
+        // updateButtonVisibility();
     }
 
     private void savePlantData() {
@@ -156,7 +184,7 @@ public class SelectPlantActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
+
+
 }
