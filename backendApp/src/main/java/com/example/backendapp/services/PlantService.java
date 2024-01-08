@@ -9,4 +9,6 @@ public interface PlantService {
     void savePlant(PlantSaveRequestDto plantSaveRequest);
 
     List<Plant> getPlantsForCurrentUser();
+
+    void deletePlant(String plantName) throws Exception;
 }
