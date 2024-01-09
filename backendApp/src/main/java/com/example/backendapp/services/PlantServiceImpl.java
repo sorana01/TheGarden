@@ -9,7 +9,6 @@ import com.example.backendapp.repository.PlantRepository;
 import com.example.backendapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -65,6 +64,37 @@ public class PlantServiceImpl implements PlantService{
             throw new IllegalStateException("Authentication information not available");
         }
         return authentication.getName();
+    }
+
+
+    @Override
+    public void deletePlant(String plantName) throws Exception {
+        String userEmail = getCurrentUserEmail();
+        User user = userRepository.findByEmail(userEmail);
+
+        if (user == null) {
+            throw new UserNotFoundException("Delete failed: User not found.");
+        }
+
+        // Change to find by name and user
+        Plant plant = findByNameAndUserId(plantName, user.getId());
+
+        if (plant == null) {
+            throw new IllegalStateException("Delete failed: Plant not found or does not belong to the current user.");
+        }
+
+        try {
+            plantRepository.delete(plant);
+            logger.info("Plant deleted successfully - Name: {}", plant.getName());
+        } catch (Exception e) {
+            throw new Exception("Delete failed: Unable to delete plant. Details: " + e.getMessage());
+        }
+    }
+
+
+    // Helper method to check if plant exists and belongs to the user
+    private Plant findByNameAndUserId(String plantName, Long userId) {
+        return plantRepository.findByNameAndUserId(plantName, userId);
     }
 
 }

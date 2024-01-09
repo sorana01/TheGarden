@@ -56,4 +56,18 @@ public class PlantController {
         return ResponseEntity.ok(plants);
     }
 
+
+    @DeleteMapping("/by-name/{name}")
+    public ResponseEntity<?> deletePlant(@PathVariable String name) {
+        try {
+            plantService.deletePlant(name);
+            return ResponseEntity.ok().build();
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete plant. Please try again later.");
+        }
+    }
+
+
 }

@@ -18,11 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:backgroundTint="#802D2D2D"
+        android:backgroundTint="@android:color/transparent"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="20dp"
-        app:cardCornerRadius="5dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonWrongPlant"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,28 +30,31 @@
         <!-- FrameLayout for overlaying the ViewPager and Button -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="200dp"
+            >
 
             <!-- ViewPager for the image and title -->
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                />
 
             <!-- Button that overlaps the ViewPager on the center right -->
             <Button
                 android:id="@+id/buttonSave"
-                android:layout_width="wrap_content"
+                android:layout_width="64dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="1dp"
                 android:background="@drawable/semi_circle_button_bkg"
                 android:elevation="12dp"
                 android:gravity="center"
+                app:backgroundTint="#80B3E1B4"
                 android:text="+"
-                android:textColor="@color/green_200"
+                android:textColor="#9D9B9B"
                 android:textSize="40sp"
-                app:backgroundTint="@color/gray" /> <!-- Adjust the margin as needed -->
+                /> <!-- Adjust the margin as needed -->
 
         </FrameLayout>
 

@@ -3,6 +3,8 @@ package com.example.thegarden.ui.plants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,9 +19,16 @@ import java.util.List;
 public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHolder> {
 
     private List<PlantInfo> plants;
+    private OnPlantItemClickListener listener;
 
-    public PlantAdapter(List<PlantInfo> plants) {
+    public interface OnPlantItemClickListener {
+        void onDeleteClick(String plantName, int position);
+    }
+
+
+    public PlantAdapter(List<PlantInfo> plants, OnPlantItemClickListener listener) {
         this.plants = plants;
+        this.listener = listener;
     }
 
     @Override
@@ -30,13 +39,27 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
 
     @Override
     public void onBindViewHolder(PlantViewHolder holder, int position) {
-        PlantInfo plant = plants.get(position);
+        final PlantInfo plant = plants.get(holder.getAdapterPosition());
         holder.textViewPlantName.setText(plant.getName());
-        // Load image using a library like Glide or Picasso
         Glide.with(holder.imageViewPlant.getContext())
                 .load(plant.getImageUrl())
                 .into(holder.imageViewPlant);
+
+        holder.buttonDeletePlant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int adapterPosition = holder.getAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    String plantName = plants.get(adapterPosition).getName();
+                    listener.onDeleteClick(plantName, adapterPosition);
+                }
+            }
+        });
+
     }
+
+
+
 
     public void updateData(List<PlantInfo> newData) {
         this.plants.clear();
@@ -53,11 +76,13 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
     public static class PlantViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageViewPlant;
         public TextView textViewPlantName;
+        public ImageButton buttonDeletePlant;
 
         public PlantViewHolder(View itemView) {
             super(itemView);
             imageViewPlant = itemView.findViewById(R.id.imageViewPlant);
             textViewPlantName = itemView.findViewById(R.id.textViewPlantName);
+            buttonDeletePlant = itemView.findViewById(R.id.buttonDeletePlant);
         }
     }
 }

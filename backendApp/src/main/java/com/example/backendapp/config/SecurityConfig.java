@@ -49,6 +49,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 //.requestMatchers("**").permitAll()
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/api/plants").authenticated()
+                .requestMatchers("/api/plants/by-name/{name}").authenticated()
                 .anyRequest()
                 .authenticated()
                 .and()

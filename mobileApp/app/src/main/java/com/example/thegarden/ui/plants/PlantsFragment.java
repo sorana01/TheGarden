@@ -1,6 +1,7 @@
 package com.example.thegarden.ui.plants;
 
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,14 +67,19 @@ public class PlantsFragment extends Fragment {
             ApiClient retrofit = new ApiClient();
             PlantApi service = retrofit.getRetrofit().create(PlantApi.class);
             Call<List<PlantInfo>> call = service.getPlantsForCurrentUser(token);
-            Log.d("API Request", "Authorization header: Bearer " + token);
+            Log.d("API Request", "Authorization header: " + token);
 
             call.enqueue(new Callback<List<PlantInfo>>() {
                 @Override
                 public void onResponse(Call<List<PlantInfo>> call, Response<List<PlantInfo>> response) {
                     if (response.isSuccessful() && response.body() != null) {
-                        List<PlantInfo> plantList = response.body();
-                        adapter = new PlantAdapter(plantList);
+                        plantList = response.body(); // Assign the fetched plants to your list
+                        adapter = new PlantAdapter(plantList, new PlantAdapter.OnPlantItemClickListener() {
+                            @Override
+                            public void onDeleteClick(String plantName, int position) {
+                                deletePlantByName(plantName, position);
+                            }
+                        });
                         recyclerView.setAdapter(adapter);
                     } else {
                         String error = parseError(response);
@@ -94,6 +100,35 @@ public class PlantsFragment extends Fragment {
 
         return root;
     }
+
+
+    private void deletePlantByName(String plantName, final int position) {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MySharedPrefs", getContext().MODE_PRIVATE);
+        String token = sharedPreferences.getString("AuthToken", "");
+
+        ApiClient retrofitService = new ApiClient();
+        PlantApi service = retrofitService.getRetrofit().create(PlantApi.class);
+        Call<Void> call = service.deletePlantByName(token, plantName); // URL encode the plant name
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    plantList.remove(position);
+                    adapter.notifyItemRemoved(position);
+                    Toast.makeText(getContext(), "Plant deleted successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Failed to delete plant", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     private String parseError(Response<?> response) {
         try {
