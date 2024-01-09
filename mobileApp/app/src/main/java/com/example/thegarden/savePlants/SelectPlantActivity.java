@@ -124,21 +124,6 @@ public class SelectPlantActivity extends AppCompatActivity {
 
     }
 
-    private void navigateSlide(boolean next) {
-        int currentItem = binding.viewPager.getCurrentItem();
-        if (next) {
-            // Move to the next slide
-            if (currentItem < adapter.getItemCount() - 1) {
-                binding.viewPager.setCurrentItem(currentItem + 1);
-            }
-        } else {
-            // Move to the previous slide
-            if (currentItem > 0) {
-                binding.viewPager.setCurrentItem(currentItem - 1);
-            }
-        }
-        // updateButtonVisibility();
-    }
 
     private void savePlantData() {
         // Get the currently displayed PlantInfo
@@ -160,6 +145,7 @@ public class SelectPlantActivity extends AppCompatActivity {
                     // Success response
                     PlantSaveResponseDto plantResponse = response.body();
                     Toast.makeText(SelectPlantActivity.this, plantResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
                     // Unsuccessful response
                     String errorMessage = "Failed to save plant";
