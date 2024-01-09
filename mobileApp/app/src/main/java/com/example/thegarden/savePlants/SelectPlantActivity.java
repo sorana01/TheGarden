@@ -90,7 +90,7 @@ public class SelectPlantActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 // Change the behavior of the button based on the current page
-                if (position < 2) {
+                if (position != binding.viewPager.getAdapter().getItemCount() - 1) {
                     // For the first two pages, set the button to move to the next slide
                     binding.buttonWrongPlant.setOnClickListener(new View.OnClickListener() {
                         @Override
