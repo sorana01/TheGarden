@@ -16,5 +16,11 @@
     <string name="have_account">Have an account?</string>
     <string name="login_button_text">Login</string>
     <string name="label_dont_have_account">Don\'t have an account?</string>
+    <string name="heading_one">Placement</string>
+    <string name="heading_two">Lighting</string>
+    <string name="heading_three">Foreign objects</string>
+    <string name="desc_one">Make sure the plant is in the center of the photo</string>
+    <string name="desc_two">Make sure the plant is sufficiently illuminated</string>
+    <string name="desc_three">Avoid other plants and foreign objects in the frame</string>
 
 </resources>
