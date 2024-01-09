@@ -90,7 +90,7 @@ public class SelectPlantActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 // Change the behavior of the button based on the current page
-                if (position < 2) {
+                if (position != binding.viewPager.getAdapter().getItemCount() - 1) {
                     // For the first two pages, set the button to move to the next slide
                     binding.buttonWrongPlant.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -124,21 +124,6 @@ public class SelectPlantActivity extends AppCompatActivity {
 
     }
 
-    private void navigateSlide(boolean next) {
-        int currentItem = binding.viewPager.getCurrentItem();
-        if (next) {
-            // Move to the next slide
-            if (currentItem < adapter.getItemCount() - 1) {
-                binding.viewPager.setCurrentItem(currentItem + 1);
-            }
-        } else {
-            // Move to the previous slide
-            if (currentItem > 0) {
-                binding.viewPager.setCurrentItem(currentItem - 1);
-            }
-        }
-        // updateButtonVisibility();
-    }
 
     private void savePlantData() {
         // Get the currently displayed PlantInfo
@@ -160,6 +145,7 @@ public class SelectPlantActivity extends AppCompatActivity {
                     // Success response
                     PlantSaveResponseDto plantResponse = response.body();
                     Toast.makeText(SelectPlantActivity.this, plantResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
                     // Unsuccessful response
                     String errorMessage = "Failed to save plant";

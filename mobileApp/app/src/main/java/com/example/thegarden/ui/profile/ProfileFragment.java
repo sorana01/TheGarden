@@ -1,5 +1,6 @@
 package com.example.thegarden.ui.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.thegarden.databinding.FragmentProfileBinding;
+import com.example.thegarden.ui.scan.TutorialHowToScanActivity;
 
 public class ProfileFragment extends Fragment {
 
@@ -44,7 +46,10 @@ public class ProfileFragment extends Fragment {
         binding.cardViewSettingsProfile.setOnClickListener(v -> onSettingsClick());
         binding.cardViewContactUs.setOnClickListener(v -> onSettingsClick());
         binding.cardViewNotification.setOnClickListener(v -> onSettingsClick());
-        binding.cardViewTakePhoto.setOnClickListener(v -> onSettingsClick());
+        binding.cardViewTakePhoto.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), TutorialHowToScanActivity.class); // Replace NewActivity with the actual class name of the activity you want to open
+            startActivity(intent);
+        });
     }
 
     public void onSettingsClick() {

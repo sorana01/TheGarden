@@ -109,6 +109,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/registerButton"
                 android:text="Register"
+                android:textColor="@color/white"
                 style="@style/CustomButton"/>
 
         </LinearLayout>
