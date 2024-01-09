@@ -40,11 +40,20 @@
         <activity android:name=".MainActivity">
             <!-- Other configuration for the activity -->
         </activity>
-        <activity android:name=".savePlants.SelectPlantActivity">
+        <activity
+            android:name=".savePlants.SelectPlantActivity"
+            android:theme="@style/Theme.LoginAndRegister">
         </activity>
 
-        <activity android:name=".ui.errors.PlantNotRecognizedActivity">
-            <!-- Any additional configuration for the activity -->
+        <activity
+            android:name=".ui.errors.PlantNotRecognizedActivity"
+            android:theme="@style/Theme.LoginAndRegister">
+
+        </activity>
+
+        <activity
+            android:name=".ui.scan.TutorialHowToScanActivity"
+            android:theme="@style/Theme.LoginAndRegister">
         </activity>
 
 
