@@ -26,7 +26,7 @@
         android:id="@+id/buttonAddPlant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_green_background"
+        android:background="@drawable/rounded_green_background_2"
         android:textColor="@color/green_200"
         android:text="Add"
 
