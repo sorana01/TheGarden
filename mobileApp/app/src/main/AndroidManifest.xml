@@ -46,7 +46,7 @@
         </activity>
 
         <activity
-            android:name=".ui.errors.PlantNotRecognizedActivity"
+            android:name=".ui.scan.PlantNotRecognizedActivity"
             android:theme="@style/Theme.LoginAndRegister">
 
         </activity>
