@@ -23,4 +23,7 @@
     <string name="desc_two">Make sure the plant is sufficiently illuminated</string>
     <string name="desc_three">Avoid other plants and foreign objects in the frame</string>
 
+
+    <string name="welcome_message">Hello %1$s,\nHow are you today?</string>
+
 </resources>

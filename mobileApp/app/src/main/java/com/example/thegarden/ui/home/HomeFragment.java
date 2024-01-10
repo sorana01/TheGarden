@@ -1,10 +1,13 @@
 package com.example.thegarden.ui.home;
 
 import android.os.Bundle;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.text.SpannableString;
+import android.text.Spanned;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,14 +21,27 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        // Create an instance of the HomeViewModel
         HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+                new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()))
+                        .get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        // Observe the first name LiveData from the ViewModel
+        homeViewModel.getFirstName().observe(getViewLifecycleOwner(), firstName -> {
+            // Set the greeting message with the user's first name
+            String greeting = "Hello " + firstName + ",\nHow are you today?";
+            SpannableString spannableString = new SpannableString(greeting);
+
+            // Apply the larger text size to "Hello [FirstName],"
+            int endIndex = greeting.indexOf(',') + 1; // End index of the larger text
+            spannableString.setSpan(new RelativeSizeSpan(1.5f), 0, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            binding.textHome.setText(spannableString);
+        });
+
         return root;
     }
 
