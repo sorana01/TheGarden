@@ -16,16 +16,13 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.thegarden.MainActivity;
-import com.example.thegarden.PlantId.RetrofitClient;
 import com.example.thegarden.databinding.ActivitySelectPlantBinding;
 import com.example.thegarden.dto.PlantSaveRequestDto;
 import com.example.thegarden.dto.PlantSaveResponseDto;
 import com.example.thegarden.network.ApiClient;
-import com.example.thegarden.ui.errors.PlantNotRecognizedActivity;
-import com.example.thegarden.ui.scan.ScanFragment;
+import com.example.thegarden.ui.scan.PlantNotRecognizedActivity;
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -41,6 +38,8 @@ public class SelectPlantActivity extends AppCompatActivity {
 
     private String userEmail;
     private String token;
+
+    public static final int REQUEST_CODE_PLANT_NOT_RECOGNIZED = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,7 +80,15 @@ public class SelectPlantActivity extends AppCompatActivity {
         binding.buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                savePlantData();
+
+                // Get the currently displayed PlantInfo
+                int currentPlantIndex = binding.viewPager.getCurrentItem();
+                PlantInfo currentPlant = plantInfoList.get(currentPlantIndex);
+
+                // Now call savePlantData with the name and image URL of the current plant
+                savePlantData(currentPlant.getName(), currentPlant.getImageUrl());
+
+               // savePlantData();
             }
         });
 
@@ -106,7 +113,8 @@ public class SelectPlantActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             // Open a new intent as originally intended
                             Intent intent = new Intent(SelectPlantActivity.this, PlantNotRecognizedActivity.class);
-                            startActivity(intent);
+                            intent.putExtra("capturedImageUri", imageUri.toString());
+                            startActivityForResult(intent, REQUEST_CODE_PLANT_NOT_RECOGNIZED);
                         }
                     });
                 }
@@ -124,13 +132,24 @@ public class SelectPlantActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    private void savePlantData() {
+        if (requestCode == REQUEST_CODE_PLANT_NOT_RECOGNIZED && resultCode == RESULT_OK && data != null) {
+            String plantName = data.getStringExtra("plantName");
+            String imageUriString = data.getStringExtra("imageUri");
+            savePlantData(plantName, imageUriString);
+        }
+    }
+
+
+    private void savePlantData(String plantName, String imageUrl) {
         // Get the currently displayed PlantInfo
-        int currentPlantIndex = binding.viewPager.getCurrentItem();
-        PlantInfo currentPlant = plantInfoList.get(currentPlantIndex);
+        //int currentPlantIndex = binding.viewPager.getCurrentItem();
+       // PlantInfo currentPlant = plantInfoList.get(currentPlantIndex);
 
-        PlantSaveRequestDto requestDto = new PlantSaveRequestDto(currentPlant.getName(), currentPlant.getImageUrl());
+        PlantSaveRequestDto requestDto = new PlantSaveRequestDto(plantName, imageUrl);
         Log.d("SharedPreferences(2)", "JWT Token: " + token);
 
 
