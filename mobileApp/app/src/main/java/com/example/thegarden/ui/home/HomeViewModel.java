@@ -1,19 +1,33 @@
 package com.example.thegarden.ui.home;
 
+import android.app.Application;
+import android.content.SharedPreferences;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class HomeViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<String> mText;
+    private final MutableLiveData<String> mFirstName = new MutableLiveData<>();
 
-    public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+    public HomeViewModel(Application application) {
+        super(application);
+        // Initialize the first name LiveData
+        loadUser();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+
+    private void loadUser(){
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("MySharedPrefs", Application.MODE_PRIVATE);
+        String firstName = sharedPreferences.getString("userFirstName", "Guest");
+
+        mFirstName.setValue(firstName);
     }
+
+    // Getter method for the first name LiveData
+    public LiveData<String> getFirstName() {
+        return mFirstName;
+    }
+
 }
