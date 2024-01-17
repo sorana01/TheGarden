@@ -38,14 +38,10 @@
                 android:paddingBottom="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="Email"
                 style="@style/CustomTextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
                     android:id="@+id/emailEditText"
                     android:inputType="textEmailAddress"
                     android:drawableLeft="@drawable/ic_profile_fragment_24"
@@ -53,15 +49,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="Password"
                 style="@style/CustomTextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
                     android:id="@+id/passwordEditText"
+                    android:inputType="textPassword"
                     android:drawableLeft="@drawable/ic_login_password_24"
                     style="@style/CustomTextInputEditText"/>
 
@@ -69,14 +62,11 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
                 android:id="@+id/loginButton"
                 android:text="Login"
-                android:textSize="18sp"
                 android:layout_marginTop="30dp"
-                android:backgroundTint="@color/green_700"
-                app:cornerRadius = "20dp"/>
+                android:textColor="@color/white"
+                style="@style/CustomButton"/>
 
 
         </LinearLayout>
@@ -99,35 +89,10 @@
 
         <TextView
             android:id="@+id/registerButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:minWidth="48dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="8dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="8dp"
             android:text="Sign Up"
-            android:textSize="14sp"
-            android:textColor="@color/green_500"
-            android:textStyle="bold"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:background="?attr/selectableItemBackground" />
+            style="@style/CustomTextView"
+           />
 
     </LinearLayout>
-
-
-    <!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:padding="8dp"-->
-<!--        android:text="Not yet registered? SignUp Now"-->
-<!--        android:textSize="14sp"-->
-<!--        android:textAlignment="center"-->
-<!--        android:id="@+id/registerButton"-->
-<!--        android:textColor="@color/green_500"-->
-<!--        android:layout_marginBottom="20dp"/>-->
 
 </LinearLayout>

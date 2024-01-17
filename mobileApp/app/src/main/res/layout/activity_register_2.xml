@@ -121,7 +121,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="25dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -132,34 +132,10 @@
 
         <TextView
             android:id="@+id/loginButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:minWidth="48dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="8dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="8dp"
             android:text="Login"
-            android:textSize="14sp"
-            android:textColor="@color/green_500"
-            android:textStyle="bold"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:background="?attr/selectableItemBackground" />
+            style="@style/CustomTextView"
+            />
 
     </LinearLayout>
-
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:padding="8dp"-->
-<!--        android:text="Have an account? Login"-->
-<!--        android:textSize="14sp"-->
-<!--        android:textAlignment="center"-->
-<!--        android:id="@+id/registerButton"-->
-<!--        android:textColor="@color/green_500"-->
-<!--        android:layout_marginBottom="20dp"/>-->
 
 </LinearLayout>
